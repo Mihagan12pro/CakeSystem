@@ -1,3 +1,4 @@
+using CakeSystem.Application;
 using CakeSystem.Infrastructure.SQLite;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
@@ -18,6 +19,9 @@ namespace CakeSystem
             builder.Services.AddControllers();
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();
+
+            builder.Services.AddApplicationServices();
+            builder.Services.AddDbServices();
 
             var app = builder.Build();
 

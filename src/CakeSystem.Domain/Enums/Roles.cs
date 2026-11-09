@@ -4,10 +4,12 @@
     {
         Client,
 
-        CEO,
+        Manager,
 
         PurchasingManager,
 
-        AccountManaher
+        AccountManaher,
+
+        Baker
     }
 }
