@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <h1>Регистрация</h1>
+
+    <form action="/signup" method="post">
+
+        <p>
+            <label for="fullname">Фамилия, имя, отчество:</label><br>
+            <input type="text" id="fullname" name="fullname">
+        </p>
+
+        <p>
+            <label for="fullname">Логин:</label><br>
+            <input required minlength="3" type="text" id="login" name="login">
+        </p>
+
+        <p>
+            <label for="password">Пароль:</label><br>
+            <input type="password" id="password" name="password"
+                   required minlength="8">
+        </p>
+
+        <p>
+            <button type="submit">Зарегистрироваться</button>
+        </p>
+
+    </form>
+</body>
+</html>

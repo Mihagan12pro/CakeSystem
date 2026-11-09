@@ -1,5 +1,3 @@
-
-using CakeSystem.Utils;
 using System.Reflection;
 
 namespace CakeSystem
@@ -19,12 +17,12 @@ namespace CakeSystem
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();
 
-            builder.Services.AddOptions<Files>()
-                .Configure(options => 
-                {
-                    options.PublicFilesDirectory = Path.Combine(projectRoot, "Public");
-                    options.StaticFilesDirectory = Path.Combine(projectRoot, "Static");
-                });
+            //builder.Services.AddOptions<Files>()
+            //    .Configure(options => 
+            //    {
+            //        options.PublicFilesDirectory = Path.Combine(projectRoot, "Public");
+            //        options.StaticFilesDirectory = Path.Combine(projectRoot, "Static");
+            //    });
 
             var app = builder.Build();
 

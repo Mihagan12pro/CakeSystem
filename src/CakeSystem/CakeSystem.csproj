@@ -10,8 +10,4 @@
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.14" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\CakeSystem.Utils\CakeSystem.Utils.csproj" />
-  </ItemGroup>
-
 </Project>

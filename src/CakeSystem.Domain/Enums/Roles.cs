@@ -1,10 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace CakeSystem.Domain.Enums
+﻿namespace CakeSystem.Domain.Enums
 {
     public enum Roles
     {
+        Client,
+
+        CEO,
+
+        PurchasingManager,
+
+        AccountManaher
     }
 }
