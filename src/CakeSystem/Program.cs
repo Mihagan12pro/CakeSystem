@@ -1,3 +1,5 @@
+using CakeSystem.Infrastructure.SQLite;
+using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
 namespace CakeSystem
@@ -17,14 +19,13 @@ namespace CakeSystem
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();
 
-            //builder.Services.AddOptions<Files>()
-            //    .Configure(options => 
-            //    {
-            //        options.PublicFilesDirectory = Path.Combine(projectRoot, "Public");
-            //        options.StaticFilesDirectory = Path.Combine(projectRoot, "Static");
-            //    });
-
             var app = builder.Build();
+
+            using (var scope = app.Services.CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                dbContext.Database.Migrate();
+            }
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
