@@ -11,6 +11,6 @@
   </Folder>
   <Project Path="src/CakeSystem.Application/CakeSystem.Application.csproj" Id="fd1a64fe-239c-4709-ba60-44c579a7b6ef" />
   <Project Path="src/CakeSystem.Domain/CakeSystem.Domain.csproj" Id="2993ad44-af71-4017-bae5-054bba136527" />
+  <Project Path="src/CakeSystem.Infrastructure.MySQL/CakeSystem.Infrastructure.MySQL.csproj" Id="a0c688cb-9b54-4261-9548-a3fef61e9e63" />
   <Project Path="src/CakeSystem/CakeSystem.csproj" Id="d7b0b8a3-fb44-449f-8bc6-5b7b7086adfa" />
-  <Project Path="src/Infrastructure/CakeSystem.Infrastructure.SQLite/CakeSystem.Infrastructure.SQLite.csproj" Id="00abf367-f3c1-433f-95ed-815c17cd1dec" />
 </Solution>

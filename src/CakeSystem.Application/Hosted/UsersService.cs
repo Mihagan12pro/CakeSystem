@@ -46,6 +46,8 @@ namespace CakeSystem.Application.Hosted
                                 string role = StringCleaner.CleanCyrillic(cells.GetCell(4).StringCellValue);
                                 string fullName = cells.GetCell(5).StringCellValue;
 
+                                sheet.RemoveRow(cells);
+
                                 PutUserDto user = new PutUserDto(login, password, role, fullName);
                                 await authService.PutOrAddAsync(user, stoppingToken);
                             }

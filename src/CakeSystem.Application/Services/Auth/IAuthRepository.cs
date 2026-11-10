@@ -4,11 +4,11 @@ namespace CakeSystem.Application.Services.Auth
 {
     public interface IAuthRepository
     {
-        Task<bool> AddUser(
+        Task<bool> AddUserAsync(
             User user, 
             CancellationToken token);
 
-        Task PutOrAddUser(
+        Task PutOrAddUserAsync(
             User user,
             CancellationToken token);
     }

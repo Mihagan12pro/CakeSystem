@@ -1,6 +1,5 @@
 using CakeSystem.Application;
-using CakeSystem.Infrastructure.SQLite;
-using Microsoft.EntityFrameworkCore;
+using CakeSystem.Infrastructure.MySQL;
 using System.Reflection;
 
 namespace CakeSystem
@@ -21,15 +20,9 @@ namespace CakeSystem
             builder.Services.AddOpenApi();
 
             builder.Services.AddApplicationServices();
-            builder.Services.AddDbServices(builder.Environment);
+            builder.Services.AddDbServices("");
 
             var app = builder.Build();
-
-            using (var scope = app.Services.CreateScope())
-            {
-                var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                dbContext.Database.Migrate();
-            }
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

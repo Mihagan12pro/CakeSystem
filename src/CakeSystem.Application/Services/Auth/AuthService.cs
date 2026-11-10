@@ -72,7 +72,7 @@ namespace CakeSystem.Application.Services.Auth
                 Role = role
             };
 
-            await _authRepository.PutOrAddUser(user, token);
+            await _authRepository.PutOrAddUserAsync(user, token);
         }
 
         public AuthService(

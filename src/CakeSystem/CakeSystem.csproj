@@ -1,9 +1,10 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>cb461db9-324e-4e0c-a1c0-b208ecf852f7</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,7 +14,7 @@
   <ItemGroup>
     <ProjectReference Include="..\CakeSystem.Application\CakeSystem.Application.csproj" />
     <ProjectReference Include="..\CakeSystem.Domain\CakeSystem.Domain.csproj" />
-    <ProjectReference Include="..\Infrastructure\CakeSystem.Infrastructure.SQLite\CakeSystem.Infrastructure.SQLite.csproj" />
+    <ProjectReference Include="..\CakeSystem.Infrastructure.MySQL\CakeSystem.Infrastructure.MySQL.csproj" />
   </ItemGroup>
 
 </Project>
