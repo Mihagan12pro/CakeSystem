@@ -21,7 +21,7 @@ namespace CakeSystem
             builder.Services.AddOpenApi();
 
             builder.Services.AddApplicationServices();
-            builder.Services.AddDbServices();
+            builder.Services.AddDbServices(builder.Environment);
 
             var app = builder.Build();
 

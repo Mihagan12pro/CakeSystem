@@ -1,4 +1,6 @@
-﻿namespace CakeSystem.Domain.Enums
+﻿using System.Text.Json.Serialization;
+
+namespace CakeSystem.Domain.Enums
 {
     public enum Roles
     {
@@ -8,7 +10,7 @@
 
         PurchasingManager,
 
-        AccountManaher,
+        AccountManager,
 
         Baker
     }

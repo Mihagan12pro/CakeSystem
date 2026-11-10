@@ -8,9 +8,8 @@ namespace CakeSystem.Application.Services.Auth
             NewUserDto userDto,
             CancellationToken token);
 
-        public Task AddAsync(
-            NewUserDto userDto,
-            string Role,
+        public Task PutOrAddAsync(
+            PutUserDto userDto,
             CancellationToken token);
     }
 }

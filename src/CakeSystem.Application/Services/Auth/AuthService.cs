@@ -1,4 +1,5 @@
 ﻿using CakeSystem.Application.DTOs.Auth;
+using CakeSystem.Application.Security.Hashers.SHA256;
 using CakeSystem.Domain;
 using CakeSystem.Domain.Enums;
 
@@ -7,6 +8,7 @@ namespace CakeSystem.Application.Services.Auth
     internal class AuthService : IAuthService
     {
         private readonly IAuthRepository _authRepository;
+        private readonly ISha256Hasher _hasher;
 
         public async Task AddAsync(NewUserDto userDto, CancellationToken token)
         {
@@ -20,11 +22,11 @@ namespace CakeSystem.Application.Services.Auth
             };
         }
 
-        public async Task AddAsync(NewUserDto userDto, string roleStr, CancellationToken token)
+        public async Task PutOrAddAsync(PutUserDto userDto, CancellationToken token)
         {
             Roles role;
 
-            switch(roleStr)
+            switch(userDto.Role)
             {
                 case "Директор":
                     {
@@ -39,7 +41,7 @@ namespace CakeSystem.Application.Services.Auth
                     }
                 case "Менеджерпопродажам":
                     {
-                        role = Roles.AccountManaher;
+                        role = Roles.AccountManager;
                         break;
                     }
                 case "Мастер":
@@ -63,15 +65,22 @@ namespace CakeSystem.Application.Services.Auth
             {
                 Login = userDto.Login,
 
-                Password = userDto.Password,
+                Password = _hasher.Hash(userDto.Password),
+
+                FullName = userDto.FullName,
 
                 Role = role
             };
+
+            await _authRepository.PutOrAddUser(user, token);
         }
 
-        public AuthService(IAuthRepository authRepository)
+        public AuthService(
+            IAuthRepository authRepository,
+            ISha256Hasher hasher)
         {
             _authRepository = authRepository;
+            _hasher = hasher;
         }
     }
 }

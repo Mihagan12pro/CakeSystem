@@ -7,5 +7,9 @@ namespace CakeSystem.Application.Services.Auth
         Task<bool> AddUser(
             User user, 
             CancellationToken token);
+
+        Task PutOrAddUser(
+            User user,
+            CancellationToken token);
     }
 }

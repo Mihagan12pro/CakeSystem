@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="10.0.14" />
+    <PackageReference Include="Net.Cryptography.SHA256" Version="1.1.0" />
     <PackageReference Include="NPOI" Version="2.8.1" />
   </ItemGroup>
 
