@@ -14,7 +14,7 @@
   <ItemGroup>
     <ProjectReference Include="..\CakeSystem.Application\CakeSystem.Application.csproj" />
     <ProjectReference Include="..\CakeSystem.Domain\CakeSystem.Domain.csproj" />
-    <ProjectReference Include="..\CakeSystem.Infrastructure.MySQL\CakeSystem.Infrastructure.MySQL.csproj" />
+    <ProjectReference Include="..\CakeSystem.Infrastructure.PostgreSQL\CakeSystem.Infrastructure.PostgreSQL.csproj" />
   </ItemGroup>
 
 </Project>

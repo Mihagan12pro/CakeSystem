@@ -7,6 +7,6 @@ namespace CakeSystem.Application.Utils
         public string Path { get; }
 
         public RootPath(IHostEnvironment env)
-            => Path = new DirectoryInfo(env.ContentRootPath).Parent.Parent.Parent.FullName;
+            => Path = new DirectoryInfo(env.ContentRootPath).Parent.Parent.FullName;
     }
 }

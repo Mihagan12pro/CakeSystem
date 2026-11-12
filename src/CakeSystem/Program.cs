@@ -1,6 +1,7 @@
+using CakeSystem.Infrastructure.PostgreSQL;
 using CakeSystem.Application;
-using CakeSystem.Infrastructure.MySQL;
 using System.Reflection;
+using Microsoft.EntityFrameworkCore;
 
 namespace CakeSystem
 {
@@ -18,9 +19,10 @@ namespace CakeSystem
             builder.Services.AddControllers();
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();
+            builder.Services.AddDbServices();
 
             builder.Services.AddApplicationServices();
-            builder.Services.AddDbServices("");
+            //builder.Services.AddDbServices("");
 
             var app = builder.Build();
 
@@ -36,6 +38,13 @@ namespace CakeSystem
 
 
             app.MapControllers();
+
+            using (var scope = app.Services.CreateScope())
+            {
+                var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+                db.Database.Migrate();
+            }
 
             app.Run();
         }
