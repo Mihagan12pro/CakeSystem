@@ -1,0 +1,30 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <h1>Вход</h1>
+
+    <form action="/auth/signin" method="post">
+
+        <p>
+            <label for="fullname">Логин:</label><br>
+            <input required type="text" id="login" name="login">
+        </p>
+
+        <p>
+            <label for="password">Пароль:</label><br>
+            <input type="password" id="password" name="password"
+                   required>
+        </p>
+
+        <p>
+            <button type="submit">Вход</button>
+        </p>
+
+    </form>
+</body>
+</html>

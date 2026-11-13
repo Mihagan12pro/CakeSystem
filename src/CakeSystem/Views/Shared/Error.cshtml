@@ -1,0 +1,11 @@
+﻿@model ErrorViewModel
+@{
+    ViewData["Title"] = Model.StatusCode;
+}
+
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div class="alert alert-warning" role="alert">
+        <strong>Проблема:</strong> @Model.ErrorMessage
+    </div>
+}
