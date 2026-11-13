@@ -11,5 +11,9 @@ namespace CakeSystem.Application.Services.Auth
         public Task PutOrAddAsync(
             PutUserDto userDto,
             CancellationToken token);
+
+        public Task<GetUserDto> GetUser(
+            LoginUserDto userDto,
+            CancellationToken token);
     }
 }

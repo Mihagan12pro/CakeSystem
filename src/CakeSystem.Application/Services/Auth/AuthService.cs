@@ -16,7 +16,7 @@ namespace CakeSystem.Application.Services.Auth
             {
                 Login = userDto.Login,
 
-                Password = userDto.Password,
+                Password = _hasher.Hash(userDto.Password),
 
                 Role = Roles.Client
             };
@@ -75,6 +75,18 @@ namespace CakeSystem.Application.Services.Auth
             };
 
             await _authRepository.PutOrAddUserAsync(user, token);
+        }
+
+        public async Task<GetUserDto> GetUser(LoginUserDto userDto, CancellationToken token)
+        {
+            userDto = userDto with { Password = _hasher.Hash(userDto.Password) };
+
+            var user = await _authRepository.GetUserAsync(userDto, token);
+
+            if (user == null)
+                return null;
+
+            return new GetUserDto(user.Login, user.FullName, user.Role);
         }
 
         public AuthService(

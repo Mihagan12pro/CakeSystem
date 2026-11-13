@@ -1,5 +1,6 @@
 using CakeSystem.Application;
 using CakeSystem.Infrastructure.PostgreSQL;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace CakeSystem
 {
@@ -8,6 +9,16 @@ namespace CakeSystem
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.LoginPath = "/auth/signup";
+                });
+            
+            builder.Services.AddAuthorization();
+
+            builder.Services.AddOptions<CookiesSettings>();
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
@@ -28,6 +39,7 @@ namespace CakeSystem
             app.UseHttpsRedirection();
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapStaticAssets();

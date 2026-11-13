@@ -1,4 +1,5 @@
-﻿using CakeSystem.Application.Services.Auth;
+﻿using CakeSystem.Application.DTOs.Auth;
+using CakeSystem.Application.Services.Auth;
 using CakeSystem.Domain;
 using Microsoft.EntityFrameworkCore;
 
@@ -36,6 +37,9 @@ namespace CakeSystem.Infrastructure.PostgreSQL.Repositories
 
             await _dbContext.SaveChangesAsync(token);
         }
+
+        public async Task<User> GetUserAsync(LoginUserDto userDto, CancellationToken token)
+            => await _dbContext.Users.FirstOrDefaultAsync(u => u.Password == userDto.Password && u.Login == userDto.Login);
 
         public AuthRepository(AppDbContext dbContext)
             => _dbContext = dbContext;
