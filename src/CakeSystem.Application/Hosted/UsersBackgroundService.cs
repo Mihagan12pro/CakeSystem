@@ -6,14 +6,15 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NPOI.HSSF.UserModel;
+using NPOI.POIFS.FileSystem;
 using NPOI.SS.UserModel;
 
 namespace CakeSystem.Application.Hosted
 {
-    public class UsersService : BackgroundService
+    public class UsersBackgroundService : BackgroundService
     {
         private readonly IServiceScopeFactory _serviceScopeFactory;
-        private readonly ILogger<UsersService> _logger;
+        private readonly ILogger<UsersBackgroundService> _logger;
         private readonly RootPath _rootPath;
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -53,20 +54,27 @@ namespace CakeSystem.Application.Hosted
                                     delay = 3000;
                                     try
                                     {
-                                        var cell = row.GetCell(2);
-                                        string login = row.GetCell(2).StringCellValue;
-                                        string password = hasher.Hash(row.GetCell(3).StringCellValue);
-                                        string role = StringCleaner.CleanCyrillic(row.GetCell(4).StringCellValue);
-                                        string fullName = row.GetCell(5).StringCellValue;
+                                        string login = row.GetCell(0).StringCellValue;
+                                        string password = hasher.Hash(row.GetCell(1).StringCellValue);
+                                        string role = StringCleaner.CleanCyrillic(row.GetCell(2).StringCellValue);
+                                        string fullName = row.GetCell(3).StringCellValue;
                                         PutUserDto user = new PutUserDto(login, password, role, fullName);
                                         await authService.PutOrAddAsync(user, stoppingToken);
 
                                         sheet.RemoveRow(row);
                                         sheet.ShiftRows(row.RowNum, sheet.LastRowNum, -1);
                                     }
-                                    catch (Exception ex)
+                                    catch (NotOLE2FileException ex)
                                     {
-                                        _logger.LogWarning(ex, "Unhandled exceptions");
+                                        _logger.LogError(ex, "Invalid xls file!");
+                                    }
+                                    catch (IOException ex)
+                                    {
+                                        _logger.LogWarning(ex, "Conflict!");
+                                    }
+                                    catch(Exception ex)
+                                    {
+                                        _logger.LogWarning(ex, "The {0} row caused exception:", row.RowNum + 1);
                                     }
                                 }
                                 else
@@ -83,17 +91,21 @@ namespace CakeSystem.Application.Hosted
                             workbook.Close();
 
                         }
-                        catch(IOException ex)
+                        catch (NotOLE2FileException ex)
                         {
-                            _logger.LogWarning(ex, "Another application is reading or editing the Users.xls.");
+                            _logger.LogError(ex, "Invalid xls file!");
+                        }
+                        catch (IOException ex)
+                        {
+                            _logger.LogWarning(ex, "Conflict!");
                         }
                     }
                 }
             }
         }
 
-        public UsersService(
-            ILogger<UsersService> logger,
+        public UsersBackgroundService(
+            ILogger<UsersBackgroundService> logger,
             IServiceScopeFactory serviceScopeFactory,
             RootPath rootPath)
         {

@@ -428,4 +428,4 @@ FodyWeavers.xsd
 #*.lscache
 
 *db
-*xls
+*.xls
