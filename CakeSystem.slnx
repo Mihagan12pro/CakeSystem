@@ -1,6 +1,8 @@
 <Solution>
   <Folder Name="/Public/">
     <File Path="Public/404.html" />
+    <File Path="Public/409.html" />
+    <File Path="Public/SignIn.html" />
     <File Path="Public/SignUp.html" />
   </Folder>
   <Folder Name="/Solution Items/">
@@ -12,5 +14,5 @@
   <Project Path="src/CakeSystem.Application/CakeSystem.Application.csproj" Id="fd1a64fe-239c-4709-ba60-44c579a7b6ef" />
   <Project Path="src/CakeSystem.Domain/CakeSystem.Domain.csproj" Id="2993ad44-af71-4017-bae5-054bba136527" />
   <Project Path="src/CakeSystem.Infrastructure.PostgreSQL/CakeSystem.Infrastructure.PostgreSQL.csproj" Id="8412464f-68db-47f5-a7b7-431803b69974" />
-  <Project Path="src/CakeSystem/CakeSystem.csproj" Id="d7b0b8a3-fb44-449f-8bc6-5b7b7086adfa" />
+  <Project Path="src/CakeSystem/CakeSystem.csproj" Id="f9e5ceaf-c3fa-4275-a964-10ebf202bdab" />
 </Solution>

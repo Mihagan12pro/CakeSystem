@@ -6,9 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NPOI.HSSF.UserModel;
-using NPOI.SS.Formula.Functions;
 using NPOI.SS.UserModel;
-using System.Numerics;
 
 namespace CakeSystem.Application.Hosted
 {
@@ -20,9 +18,11 @@ namespace CakeSystem.Application.Hosted
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            int delay = 3000;
+
             while (!stoppingToken.IsCancellationRequested)
             {
-                await Task.Delay(3000);
+                await Task.Delay(delay);
 
                 string path = Path.Combine(_rootPath.Path, "Static", "Users.xls");
 
@@ -48,8 +48,9 @@ namespace CakeSystem.Application.Hosted
 
                             foreach(var row in sheet.Rows)
                             {
-                                if (row.Cells.All(c => c.CellType != CellType.Blank))
+                                if (row.Cells.Count > 0)
                                 {
+                                    delay = 3000;
                                     try
                                     {
                                         var cell = row.GetCell(2);
@@ -67,6 +68,10 @@ namespace CakeSystem.Application.Hosted
                                     {
                                         _logger.LogWarning(ex, "Unhandled exceptions");
                                     }
+                                }
+                                else
+                                {
+                                    delay = 10000;
                                 }
                             }
 

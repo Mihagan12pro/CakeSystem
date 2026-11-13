@@ -1,25 +1,40 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CakeSystem.Application.DTOs.Auth;
+using CakeSystem.Application.Services.Auth;
+using CakeSystem.Models;
+using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace CakeSystem.Controllers
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class AuthController : ControllerBase
+    public class AuthController : Controller
     {
-        private readonly IHostEnvironment _env;
-
-        [HttpGet("signup")]
-        public IActionResult GetSignUp()
+        [HttpGet]
+        public IActionResult SignUp()
         {
-            var filePath = Path.Combine(new DirectoryInfo(_env.ContentRootPath).Parent.Parent.FullName, "Public", "SignUp.html");
-
-            return PhysicalFile(filePath, "text/html");
+            return View();
         }
 
-
-        public AuthController(IHostEnvironment env)
+        [HttpPost]
+        public async Task<IActionResult> SignUp(
+            [FromForm] NewUserDto user,
+            [FromServices] IAuthService service,
+            CancellationToken token)
         {
-            _env = env;
+            if (await service.AddAsync(user, token))
+                return Redirect("/Auth/SignIn");
+
+            return View("Error", new ErrorViewModel()
+            {
+                 StatusCode = HttpStatusCode.Conflict,
+
+                 ErrorMessage = "Пользователь с данным логином уже зарегистрирован!"
+            });
+        }
+
+        [HttpGet]
+        public IActionResult SignIn()
+        {
+            return View();
         }
     }
 }

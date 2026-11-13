@@ -1,0 +1,27 @@
+﻿@{
+    ViewData["Title"] = "Sign Up page";
+}
+
+<form action="/auth/signup" method="post" class="centered">
+    <div>
+        <p>
+            <label for="fullname">Фамилия, имя, отчество:</label><br>
+            <input type="text" id="fullname" name="fullname">
+        </p>
+
+        <p>
+            <label for="fullname">Логин:</label><br>
+            <input required minlength="3" type="text" id="login" name="login">
+        </p>
+
+        <p>
+            <label for="password">Пароль:</label><br>
+            <input type="password" id="password" name="password"
+                   required minlength="8">
+        </p>
+
+        <p>
+            <button type="submit">Зарегистрироваться</button>
+        </p>
+    </div>
+</form>

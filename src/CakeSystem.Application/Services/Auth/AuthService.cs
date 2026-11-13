@@ -10,7 +10,7 @@ namespace CakeSystem.Application.Services.Auth
         private readonly IAuthRepository _authRepository;
         private readonly ISha256Hasher _hasher;
 
-        public async Task AddAsync(NewUserDto userDto, CancellationToken token)
+        public async Task<bool> AddAsync(NewUserDto userDto, CancellationToken token)
         {
             User user = new User
             {
@@ -20,6 +20,8 @@ namespace CakeSystem.Application.Services.Auth
 
                 Role = Roles.Client
             };
+
+            return await _authRepository.AddUserAsync(user, token);
         }
 
         public async Task PutOrAddAsync(PutUserDto userDto, CancellationToken token)

@@ -1,7 +1,5 @@
-using CakeSystem.Infrastructure.PostgreSQL;
 using CakeSystem.Application;
-using System.Reflection;
-using Microsoft.EntityFrameworkCore;
+using CakeSystem.Infrastructure.PostgreSQL;
 
 namespace CakeSystem
 {
@@ -9,42 +7,34 @@ namespace CakeSystem
     {
         public static void Main(string[] args)
         {
-            string assemblyDirectory = Path.GetDirectoryName(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
-            string projectRoot = new DirectoryInfo(assemblyDirectory).Parent.Parent.Parent.Parent.FullName;
-
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+            builder.Services.AddControllersWithViews();
 
-            builder.Services.AddControllers();
-            // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-            builder.Services.AddOpenApi();
             builder.Services.AddDbServices();
-
             builder.Services.AddApplicationServices();
-            //builder.Services.AddDbServices("");
 
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
+            if (!app.Environment.IsDevelopment())
             {
-                app.MapOpenApi();
+                app.UseExceptionHandler("/Home/Error");
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseHsts();
             }
 
             app.UseHttpsRedirection();
+            app.UseRouting();
 
             app.UseAuthorization();
 
-
-            app.MapControllers();
-
-            using (var scope = app.Services.CreateScope())
-            {
-                var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-
-                db.Database.Migrate();
-            }
+            app.MapStaticAssets();
+            app.MapControllerRoute(
+                name: "default",
+                pattern: "{controller=Home}/{action=Index}/{id?}")
+                .WithStaticAssets();
 
             app.Run();
         }

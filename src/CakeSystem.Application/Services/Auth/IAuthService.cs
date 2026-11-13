@@ -4,7 +4,7 @@ namespace CakeSystem.Application.Services.Auth
 {
     public interface IAuthService
     {
-        public Task AddAsync(
+        public Task<bool> AddAsync(
             NewUserDto userDto,
             CancellationToken token);
 
