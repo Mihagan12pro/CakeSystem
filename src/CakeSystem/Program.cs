@@ -1,4 +1,5 @@
 using CakeSystem.Application;
+using CakeSystem.Domain.ValueObjects;
 using CakeSystem.Infrastructure.PostgreSQL;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -12,6 +13,18 @@ namespace CakeSystem
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            builder.Services.AddSwaggerGen(options =>
+            {
+                var binDirectory = new DirectoryInfo(AppContext.BaseDirectory);
+                var files = binDirectory.GetFiles("*.xml");
+
+                foreach (var file in files)
+                {
+                    options.IncludeXmlComments(file.FullName);
+                }
+            });
+
+            builder.Services.Configure<JwtToken>(builder.Configuration.GetSection("JwtToken"));
             builder.Services.AddAuthentication(options =>
                 {
                     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -34,7 +47,7 @@ namespace CakeSystem
                         RoleClaimType = "role",
 
                         IssuerSigningKey = new SymmetricSecurityKey(
-                            Encoding.UTF8.GetBytes(builder.Configuration["JwtToken:Key"]!))
+                            Encoding.UTF8.GetBytes(builder.Configuration["JwtToken:IssuerSigningKey"]!))
                     };
                 });
 
@@ -46,6 +59,12 @@ namespace CakeSystem
             builder.Services.AddApplicationServices();
 
             var app = builder.Build();
+
+            if (app.Environment.IsDevelopment())
+            {
+                app.UseSwagger();
+                app.UseSwaggerUI();
+            }
 
             app.UseHttpsRedirection();
             app.UseRouting();

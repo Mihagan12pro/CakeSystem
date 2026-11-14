@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.Contracts;
-using System.Text;
-
-namespace CakeSystem.Domain.ValueObjects
+﻿namespace CakeSystem.Domain.ValueObjects
 {
     public class JwtToken
     {

@@ -1,10 +1,7 @@
 ﻿using CakeSystem.Application.DTOs.Auth;
 using CakeSystem.Application.Security.Jwt;
 using CakeSystem.Application.Services.Auth;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
-using System.Security.Claims;
 
 namespace CakeSystem.Controllers
 {
