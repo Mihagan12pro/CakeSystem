@@ -72,7 +72,8 @@ namespace CakeSystem
                 app.UseSwaggerUI();
             }
 
-            app.UseHttpsRedirection();
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
             app.UseRouting();
 
             app.UseAuthentication();
