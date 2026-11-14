@@ -30,6 +30,17 @@ namespace CakeSystem
                     options.IncludeXmlComments(xmlPath, includeControllerXmlComments: true);
             });
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("Frontend", policy =>
+                {
+                    policy
+                        .WithOrigins("http://127.0.0.1:5500")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
+            });
+
             builder.Services.Configure<JwtToken>(builder.Configuration.GetSection("JwtToken"));
             builder.Services.AddAuthentication(options =>
                 {
@@ -74,7 +85,10 @@ namespace CakeSystem
 
             app.UseDefaultFiles();
             app.UseStaticFiles();
+
             app.UseRouting();
+
+            app.UseCors("Frontend");
 
             app.UseAuthentication();
             app.UseAuthorization();

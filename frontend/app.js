@@ -1,4 +1,4 @@
-const API = '/api/auth';
+const API = 'http://localhost:5258/api/auth';
 const app = document.querySelector('#app');
 const toastRoot = document.querySelector('#toast-root');
 
