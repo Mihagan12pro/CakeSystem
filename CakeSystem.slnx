@@ -9,6 +9,7 @@
     <File Path=".gitignore" />
   </Folder>
   <Folder Name="/Static/">
+    <File Path="Static/Components.xls" />
     <File Path="Static/Users.xls" />
   </Folder>
   <Project Path="src/CakeSystem.Application/CakeSystem.Application.csproj" Id="fd1a64fe-239c-4709-ba60-44c579a7b6ef" />

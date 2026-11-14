@@ -27,7 +27,8 @@ namespace CakeSystem.Application
 
         private static IServiceCollection AddHostedServices(this IServiceCollection services)
         {
-            services.AddHostedService<UsersService>();
+            services.AddHostedService<UsersBackgroundService>();
+            services.AddHostedService<ComponentsBackgroundService>();
 
             return services;
         }

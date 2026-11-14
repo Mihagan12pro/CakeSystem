@@ -12,9 +12,18 @@ namespace CakeSystem.Infrastructure.PostgreSQL
             modelBuilder.Entity<User>()
                 .Property(u => u.Role)
                 .HasConversion<string>();
+
+            modelBuilder.Entity<Component>()
+                .HasIndex(c => c.Type);
+
+            modelBuilder.Entity<Component>()
+                .Property(u => u.Count)
+                .HasDefaultValue(0);
         }
 
         public DbSet<User> Users { get; set; }
+
+        public DbSet<Component> Components { get; set; }
 
         public AppDbContext(DbContextOptions options) : base(options)
         {
