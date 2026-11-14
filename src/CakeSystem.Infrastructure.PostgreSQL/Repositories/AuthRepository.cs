@@ -1,6 +1,6 @@
 ﻿using CakeSystem.Application.DTOs.Auth;
 using CakeSystem.Application.Services.Auth;
-using CakeSystem.Domain;
+using CakeSystem.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace CakeSystem.Infrastructure.PostgreSQL.Repositories

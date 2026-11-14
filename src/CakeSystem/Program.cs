@@ -12,39 +12,40 @@ namespace CakeSystem
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            builder.Services.AddAuthentication(options =>
+                {
+                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
                 .AddJwtBearer(o =>
                 {
                     o.TokenValidationParameters = new TokenValidationParameters
                     {
+                        ClockSkew = TimeSpan.Zero,
+
                         ValidateIssuer = true,
                         ValidateAudience = true,
                         ValidateLifetime = true,
                         ValidateIssuerSigningKey = true,
-                        ValidIssuer = builder.Configuration["Jwt:Issuer"],
-                        ValidAudience = builder.Configuration["Jwt:Audience"],
+                        
+                        ValidIssuer = builder.Configuration["JwtToken:Issuer"],
+                        ValidAudience = builder.Configuration["JwtToken:Audience"],
+
+                        RoleClaimType = "role",
+
                         IssuerSigningKey = new SymmetricSecurityKey(
-                            Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!))
+                            Encoding.UTF8.GetBytes(builder.Configuration["JwtToken:Key"]!))
                     };
                 });
 
             builder.Services.AddAuthorization();
 
-            // Add services to the container.
             builder.Services.AddControllersWithViews();
 
             builder.Services.AddDbServices();
             builder.Services.AddApplicationServices();
 
             var app = builder.Build();
-
-            // Configure the HTTP request pipeline.
-            if (!app.Environment.IsDevelopment())
-            {
-                app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
 
             app.UseHttpsRedirection();
             app.UseRouting();

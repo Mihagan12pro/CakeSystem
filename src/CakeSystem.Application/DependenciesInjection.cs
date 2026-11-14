@@ -1,5 +1,6 @@
 ﻿using CakeSystem.Application.Hosted;
 using CakeSystem.Application.Security.Hashers.SHA256;
+using CakeSystem.Application.Security.Jwt;
 using CakeSystem.Application.Services.Auth;
 using CakeSystem.Application.Utils;
 using Microsoft.Extensions.DependencyInjection;
@@ -43,6 +44,7 @@ namespace CakeSystem.Application
         private static IServiceCollection AddSecurity(this IServiceCollection services)
         {
             services.AddScoped<ISha256Hasher, Sha256Hasher>();
+            services.AddScoped<IJwtTokenService, JwtTokenServiceWithSymmetricKey>();
 
             return services;
         }

@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-namespace CakeSystem.Domain
+namespace CakeSystem.Domain.Entities
 {
     public class User
     {

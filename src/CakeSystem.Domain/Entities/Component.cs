@@ -1,4 +1,4 @@
-﻿namespace CakeSystem.Domain
+﻿namespace CakeSystem.Domain.Entities
 {
     public class Component
     {

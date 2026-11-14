@@ -1,4 +1,5 @@
 ﻿using CakeSystem.Application.DTOs.Auth;
+using CakeSystem.Application.Security.Jwt;
 using CakeSystem.Application.Services.Auth;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
@@ -23,30 +24,21 @@ namespace CakeSystem.Controllers
 
         [HttpPost]
         public async Task<IActionResult> SignIn(
-            [FromServices] IAuthService service,
-            [FromServices] IOptions<CookiesSettings> cookiesSettings,
+            [FromServices] IAuthService authService,
+            [FromServices] IJwtTokenService jwtTokenService,
             [FromBody] LoginUserDto userDto,
             CancellationToken token)
         {
-            GetUserDto user = await service.GetUser(userDto, token);
+            GetUserDto user = await authService.GetUser(userDto, token);
 
             if (user != null)
             {
-                var claims = new List<Claim>
-                {
-                    new Claim(ClaimsIdentity.DefaultNameClaimType, user.Login),
-                    new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role.ToString())
-                };
-        
-                var claimsIdentity = new ClaimsIdentity(claims, "Cookies");
-                var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+                string jwt = jwtTokenService.Create(user);
 
-                await HttpContext.SignInAsync(claimsPrincipal);
-
-                return Redirect("/Home/Index");
+                return Ok(jwt);
             }
 
-            return Ok();
+            return BadRequest("Bad login or password!");
         }
     }
 }
