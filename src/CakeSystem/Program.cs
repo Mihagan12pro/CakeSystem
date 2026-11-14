@@ -3,6 +3,8 @@ using CakeSystem.Domain.ValueObjects;
 using CakeSystem.Infrastructure.PostgreSQL;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi;
+using System.Reflection;
 using System.Text;
 
 namespace CakeSystem
@@ -15,13 +17,17 @@ namespace CakeSystem
 
             builder.Services.AddSwaggerGen(options =>
             {
-                var binDirectory = new DirectoryInfo(AppContext.BaseDirectory);
-                var files = binDirectory.GetFiles("*.xml");
-
-                foreach (var file in files)
+                options.SwaggerDoc("v1", new OpenApiInfo
                 {
-                    options.IncludeXmlComments(file.FullName);
-                }
+                    Title = "CakeSystem API",
+                    Version = "v1",
+                });
+
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+
+                if (File.Exists(xmlPath))
+                    options.IncludeXmlComments(xmlPath, includeControllerXmlComments: true);
             });
 
             builder.Services.Configure<JwtToken>(builder.Configuration.GetSection("JwtToken"));

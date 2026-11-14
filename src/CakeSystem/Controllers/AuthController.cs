@@ -5,9 +5,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CakeSystem.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class AuthController : ControllerBase
     {
-        [HttpPost]
+        [HttpPost("sigup")]
+
         public async Task<IActionResult> SignUp(
             [FromBody] NewUserDto user,
             [FromServices] IAuthService service,
@@ -19,7 +22,7 @@ namespace CakeSystem.Controllers
             return Conflict($"The user with Login = {user.Login} is already exists!");
         }
 
-        [HttpPost]
+        [HttpPost("signin")]
         public async Task<IActionResult> SignIn(
             [FromServices] IAuthService authService,
             [FromServices] IJwtTokenService jwtTokenService,
