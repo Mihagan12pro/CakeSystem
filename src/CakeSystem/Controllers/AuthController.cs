@@ -1,15 +1,13 @@
 ﻿using CakeSystem.Application.DTOs.Auth;
 using CakeSystem.Application.Services.Auth;
-using CakeSystem.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using System.Net;
 using System.Security.Claims;
 
 namespace CakeSystem.Controllers
 {
-    public class AuthController : Controller
+    public class AuthController : ControllerBase
     {
         [HttpPost]
         public async Task<IActionResult> SignUp(
@@ -17,15 +15,7 @@ namespace CakeSystem.Controllers
             [FromServices] IAuthService service,
             CancellationToken token)
         {
-            if (await service.AddAsync(user, token))
-                return Redirect("/Auth/SignIn");
-
-            return View("Error", new ErrorViewModel()
-            {
-                 StatusCode = HttpStatusCode.Conflict,
-
-                 ErrorMessage = "Пользователь с данным логином уже зарегистрирован!"
-            });
+            return Ok();
         }
 
         [HttpPost]
@@ -53,20 +43,7 @@ namespace CakeSystem.Controllers
                 return Redirect("/Home/Index");
             }
 
-            return View("Error", new ErrorViewModel()
-            {
-                StatusCode = HttpStatusCode.BadRequest,
-
-                ErrorMessage = "Неверный логин или пароль!"
-            });
+            return Ok();
         }
-
-        [HttpGet]
-        public IActionResult SignUp()
-            => View();
-
-        [HttpGet]
-        public IActionResult SignIn()
-            => View();
     }
 }
