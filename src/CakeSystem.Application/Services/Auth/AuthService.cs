@@ -1,6 +1,6 @@
 ﻿using CakeSystem.Application.DTOs.Auth;
 using CakeSystem.Application.Security.Hashers.SHA256;
-using CakeSystem.Domain;
+using CakeSystem.Domain.Entities;
 using CakeSystem.Domain.Enums;
 
 namespace CakeSystem.Application.Services.Auth

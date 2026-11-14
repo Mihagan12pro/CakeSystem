@@ -2,7 +2,6 @@
 using CakeSystem.Application.Security.Hashers.SHA256;
 using CakeSystem.Application.Services.Components;
 using CakeSystem.Application.Utils;
-using CakeSystem.Domain;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -10,7 +9,7 @@ using NPOI.HSSF.UserModel;
 using NPOI.POIFS.FileSystem;
 using NPOI.SS.UserModel;
 using System.ComponentModel;
-using Component = CakeSystem.Domain.Component;
+using Component = CakeSystem.Domain.Entities.Component;
 
 namespace CakeSystem.Application.Hosted
 {

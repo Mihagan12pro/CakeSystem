@@ -1,5 +1,5 @@
 ﻿using CakeSystem.Application.DTOs.Auth;
-using CakeSystem.Domain;
+using CakeSystem.Domain.Entities;
 
 namespace CakeSystem.Application.Services.Auth
 {

@@ -1,72 +1,44 @@
 ﻿using CakeSystem.Application.DTOs.Auth;
+using CakeSystem.Application.Security.Jwt;
 using CakeSystem.Application.Services.Auth;
-using CakeSystem.Models;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
-using System.Net;
-using System.Security.Claims;
 
 namespace CakeSystem.Controllers
 {
-    public class AuthController : Controller
+    [Route("api/[controller]")]
+    [ApiController]
+    public class AuthController : ControllerBase
     {
-        [HttpPost]
+        [HttpPost("sigup")]
+
         public async Task<IActionResult> SignUp(
-            [FromForm] NewUserDto user,
+            [FromBody] NewUserDto user,
             [FromServices] IAuthService service,
             CancellationToken token)
         {
             if (await service.AddAsync(user, token))
-                return Redirect("/Auth/SignIn");
+                return Created();
 
-            return View("Error", new ErrorViewModel()
-            {
-                 StatusCode = HttpStatusCode.Conflict,
-
-                 ErrorMessage = "Пользователь с данным логином уже зарегистрирован!"
-            });
+            return Conflict($"The user with Login = {user.Login} is already exists!");
         }
 
-        [HttpPost]
+        [HttpPost("signin")]
         public async Task<IActionResult> SignIn(
-            [FromServices] IAuthService service,
-            [FromServices] IOptions<CookiesSettings> cookiesSettings,
-            [FromForm] LoginUserDto userDto,
+            [FromServices] IAuthService authService,
+            [FromServices] IJwtTokenService jwtTokenService,
+            [FromBody] LoginUserDto userDto,
             CancellationToken token)
         {
-            GetUserDto user = await service.GetUser(userDto, token);
+            GetUserDto user = await authService.GetUser(userDto, token);
 
             if (user != null)
             {
-                var claims = new List<Claim>
-                {
-                    new Claim(ClaimsIdentity.DefaultNameClaimType, user.Login),
-                    new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role.ToString())
-                };
-        
-                var claimsIdentity = new ClaimsIdentity(claims, "Cookies");
-                var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+                string jwt = jwtTokenService.Create(user);
 
-                await HttpContext.SignInAsync(claimsPrincipal);
-
-                return Redirect("/Home/Index");
+                return Ok(jwt);
             }
 
-            return View("Error", new ErrorViewModel()
-            {
-                StatusCode = HttpStatusCode.BadRequest,
-
-                ErrorMessage = "Неверный логин или пароль!"
-            });
+            return BadRequest("Bad login or password!");
         }
-
-        [HttpGet]
-        public IActionResult SignUp()
-            => View();
-
-        [HttpGet]
-        public IActionResult SignIn()
-            => View();
     }
 }

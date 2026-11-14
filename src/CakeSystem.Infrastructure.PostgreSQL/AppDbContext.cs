@@ -1,4 +1,4 @@
-﻿using CakeSystem.Domain;
+﻿using CakeSystem.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace CakeSystem.Infrastructure.PostgreSQL
