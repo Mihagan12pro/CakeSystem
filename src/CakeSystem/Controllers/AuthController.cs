@@ -11,18 +11,21 @@ namespace CakeSystem.Controllers
     {
         [HttpPost]
         public async Task<IActionResult> SignUp(
-            [FromForm] NewUserDto user,
+            [FromBody] NewUserDto user,
             [FromServices] IAuthService service,
             CancellationToken token)
         {
-            return Ok();
+            if (await service.AddAsync(user, token))
+                return Created();
+
+            return Conflict($"The user with Login = {user.Login} is already exists!");
         }
 
         [HttpPost]
         public async Task<IActionResult> SignIn(
             [FromServices] IAuthService service,
             [FromServices] IOptions<CookiesSettings> cookiesSettings,
-            [FromForm] LoginUserDto userDto,
+            [FromBody] LoginUserDto userDto,
             CancellationToken token)
         {
             GetUserDto user = await service.GetUser(userDto, token);

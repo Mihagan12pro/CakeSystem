@@ -1,10 +1,16 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>3cb9e942-42f4-4b78-aaa6-deaabfe3fd26</UserSecretsId>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.15" />
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.23.0" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\CakeSystem.Application\CakeSystem.Application.csproj" />

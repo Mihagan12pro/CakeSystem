@@ -1,6 +1,8 @@
 using CakeSystem.Application;
 using CakeSystem.Infrastructure.PostgreSQL;
-using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace CakeSystem
 {
@@ -10,15 +12,23 @@ namespace CakeSystem
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(options =>
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(o =>
                 {
-                    options.LoginPath = "/auth/signup";
+                    o.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+                        ValidAudience = builder.Configuration["Jwt:Audience"],
+                        IssuerSigningKey = new SymmetricSecurityKey(
+                            Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!))
+                    };
                 });
-            
-            builder.Services.AddAuthorization();
 
-            builder.Services.AddOptions<CookiesSettings>();
+            builder.Services.AddAuthorization();
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
