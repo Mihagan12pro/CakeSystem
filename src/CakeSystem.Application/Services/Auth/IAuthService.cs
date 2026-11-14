@@ -15,7 +15,5 @@ namespace CakeSystem.Application.Services.Auth
         public Task<GetUserDto> GetUser(
             LoginUserDto userDto,
             CancellationToken token);
-
-
     }
 }
