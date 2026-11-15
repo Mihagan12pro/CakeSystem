@@ -1,10 +1,4 @@
 <Solution>
-  <Folder Name="/Public/">
-    <File Path="Public/404.html" />
-    <File Path="Public/409.html" />
-    <File Path="Public/SignIn.html" />
-    <File Path="Public/SignUp.html" />
-  </Folder>
   <Folder Name="/Solution Items/">
     <File Path=".gitignore" />
   </Folder>
