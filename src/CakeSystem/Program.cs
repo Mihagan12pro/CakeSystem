@@ -17,6 +17,20 @@ namespace CakeSystem
 
             builder.Services.AddSwaggerGen(options =>
             {
+                options.AddSecurityDefinition("bearer", new OpenApiSecurityScheme
+                {
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "bearer",
+                    BearerFormat = "JWT",
+                    Description = "JWT Authorization header using the Bearer scheme."
+                });
+
+                options.AddSecurityRequirement(document => new OpenApiSecurityRequirement
+                {
+                    [new OpenApiSecuritySchemeReference("bearer", document)] = []
+                });
+
+
                 options.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Title = "CakeSystem API",
@@ -38,6 +52,8 @@ namespace CakeSystem
                 })
                 .AddJwtBearer(o =>
                 {
+                    o.MapInboundClaims = false;
+
                     o.TokenValidationParameters = new TokenValidationParameters
                     {
                         ClockSkew = TimeSpan.Zero,
@@ -46,7 +62,7 @@ namespace CakeSystem
                         ValidateAudience = true,
                         ValidateLifetime = true,
                         ValidateIssuerSigningKey = true,
-                        
+
                         ValidIssuer = builder.Configuration["JwtToken:Issuer"],
                         ValidAudience = builder.Configuration["JwtToken:Audience"],
 

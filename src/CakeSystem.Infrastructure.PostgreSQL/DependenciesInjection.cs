@@ -1,5 +1,6 @@
 ﻿using CakeSystem.Application.Services.Auth;
 using CakeSystem.Application.Services.Components;
+using CakeSystem.Application.Services.Orders;
 using CakeSystem.Infrastructure.PostgreSQL.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -13,6 +14,7 @@ namespace CakeSystem.Infrastructure.PostgreSQL
         {
             services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddScoped<IComponentsRepository, ComponentsRepository>();
+            services.AddScoped<IOrdersRepository, OrdersRepository>();
 
             services.AddDbContext<AppDbContext>((options) =>
             {

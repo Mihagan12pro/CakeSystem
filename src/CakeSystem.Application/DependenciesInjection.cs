@@ -2,6 +2,7 @@
 using CakeSystem.Application.Security.Hashers.SHA256;
 using CakeSystem.Application.Security.Jwt;
 using CakeSystem.Application.Services.Auth;
+using CakeSystem.Application.Services.Orders;
 using CakeSystem.Application.Utils;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -37,6 +38,7 @@ namespace CakeSystem.Application
         private static IServiceCollection AddServices(this IServiceCollection services)
         {
             services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IOrdersService, OrdersService>();
 
             return services;
         }

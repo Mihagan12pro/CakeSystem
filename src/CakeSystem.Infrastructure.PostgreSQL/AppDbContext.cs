@@ -1,4 +1,5 @@
 ﻿using CakeSystem.Domain.Entities;
+using CakeSystem.Domain.Entities.Order;
 using Microsoft.EntityFrameworkCore;
 
 namespace CakeSystem.Infrastructure.PostgreSQL
@@ -30,6 +31,14 @@ namespace CakeSystem.Infrastructure.PostgreSQL
             modelBuilder.Entity<Order>()
                 .Property(o => o.Status)
                 .HasConversion<string>();
+
+            modelBuilder.Entity<OrderHistoryRow>()
+                .HasOne(oh => oh.Order)
+                .WithMany()
+                .HasForeignKey(oh => oh.OrderId);
+            modelBuilder.Entity<OrderHistoryRow>()
+                .Property(oh => oh.Status)
+                .HasConversion<string>();
         }
 
         public DbSet<User> Users { get; set; }
@@ -39,6 +48,8 @@ namespace CakeSystem.Infrastructure.PostgreSQL
         public DbSet<Order> Orders { get; set; }
 
         public DbSet<Product> Products { get; set; }
+
+        public DbSet<OrderHistoryRow> OrdersStatusHistory { get; set; }
 
         public AppDbContext(DbContextOptions options) : base(options)
         {

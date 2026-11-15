@@ -67,12 +67,16 @@ namespace CakeSystem.Infrastructure.PostgreSQL.Migrations
                     b.ToTable("Components");
                 });
 
-            modelBuilder.Entity("CakeSystem.Domain.Entities.Order", b =>
+            modelBuilder.Entity("CakeSystem.Domain.Entities.Order.Order", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("text");
 
                     b.Property<string>("ClientLogin")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -100,6 +104,30 @@ namespace CakeSystem.Infrastructure.PostgreSQL.Migrations
                     b.HasIndex("ManagerLogin");
 
                     b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("CakeSystem.Domain.Entities.Order.OrderHistoryRow", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("ChangedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("OrderId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("OrdersStatusHistory");
                 });
 
             modelBuilder.Entity("CakeSystem.Domain.Entities.Product", b =>
@@ -143,7 +171,7 @@ namespace CakeSystem.Infrastructure.PostgreSQL.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("CakeSystem.Domain.Entities.Order", b =>
+            modelBuilder.Entity("CakeSystem.Domain.Entities.Order.Order", b =>
                 {
                     b.HasOne("CakeSystem.Domain.Entities.User", "Client")
                         .WithMany()
@@ -160,6 +188,17 @@ namespace CakeSystem.Infrastructure.PostgreSQL.Migrations
                     b.Navigation("Client");
 
                     b.Navigation("Manager");
+                });
+
+            modelBuilder.Entity("CakeSystem.Domain.Entities.Order.OrderHistoryRow", b =>
+                {
+                    b.HasOne("CakeSystem.Domain.Entities.Order.Order", "Order")
+                        .WithMany()
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
                 });
 #pragma warning restore 612, 618
         }

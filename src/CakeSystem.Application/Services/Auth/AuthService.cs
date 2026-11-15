@@ -16,6 +16,8 @@ namespace CakeSystem.Application.Services.Auth
             {
                 Login = userDto.Login,
 
+                FullName = userDto.FullName,
+
                 Password = _hasher.Hash(userDto.Password),
 
                 Role = Roles.Client

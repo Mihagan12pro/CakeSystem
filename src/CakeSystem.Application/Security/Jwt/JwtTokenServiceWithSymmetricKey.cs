@@ -1,5 +1,6 @@
 ﻿using CakeSystem.Application.DTOs.Auth;
 using CakeSystem.Domain.ValueObjects;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
@@ -11,6 +12,7 @@ namespace CakeSystem.Application.Security.Jwt
     internal class JwtTokenServiceWithSymmetricKey : IJwtTokenService
     {
         private readonly JwtToken _jwt;
+        private readonly IHttpContextAccessor _httpContext;
 
         public string Create(GetUserDto user)
         {
@@ -46,7 +48,15 @@ namespace CakeSystem.Application.Security.Jwt
             return tokenString;
         }
 
-        public JwtTokenServiceWithSymmetricKey(IOptions<JwtToken> options)
-            => _jwt = options.Value;
+        public string Extract(string name)
+            => _httpContext.HttpContext.User.FindFirst(name).Value;
+
+        public JwtTokenServiceWithSymmetricKey(
+            IHttpContextAccessor httpContext, 
+            IOptions<JwtToken> options)
+        {
+            _httpContext = httpContext;
+            _jwt = options.Value;
+        }
     }
 }

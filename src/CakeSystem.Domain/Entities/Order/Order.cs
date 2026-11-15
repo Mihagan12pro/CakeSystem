@@ -1,11 +1,13 @@
 ﻿using CakeSystem.Domain.Enums;
 using System.Text.Json.Serialization;
 
-namespace CakeSystem.Domain.Entities
+namespace CakeSystem.Domain.Entities.Order
 {
     public class Order
     {
         public required string Id { get; set; }
+
+        public required string Description { get; set; }
 
         public required DateOnly StartDate { get; set; }
 
