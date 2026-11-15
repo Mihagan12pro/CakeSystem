@@ -1,10 +1,10 @@
-﻿using CakeSystem.Application.DTOs.Orders;
+﻿using CakeSystem.Application;
+using CakeSystem.Application.DTOs.Orders;
 using CakeSystem.Application.Services.Orders;
 using CakeSystem.Domain.Entities;
 using CakeSystem.Domain.Entities.Order;
 using CakeSystem.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
-using NPOI.OpenXmlFormats.Dml;
 using System.Text;
 
 namespace CakeSystem.Infrastructure.PostgreSQL.Repositories
@@ -67,11 +67,46 @@ namespace CakeSystem.Infrastructure.PostgreSQL.Repositories
 
                 Status = OrderStatus.New
             };
+            OrderHistoryRow historyRow = new OrderHistoryRow
+            {
+                ChangedAt = dateTime,
+
+                Status = order.Status,
+
+                OrderId = order.Id
+            };
 
             await _dbContext.Orders.AddAsync(order, token);
+            await _dbContext.OrdersStatusHistory.AddAsync(historyRow, token);
+
             await _dbContext.SaveChangesAsync(token);
 
             return order.Id;
+        }
+
+        public async Task<Order> GetByIdAsync(
+            string id,
+            CancellationToken token)
+                => await _dbContext.Orders.FirstAsync(o => o.Id == id, token);
+
+        public async Task<OrderHistoryRow> GetLastChangesAsync(
+            string orderId,
+            CancellationToken token)
+                => await _dbContext.OrdersStatusHistory
+                    .Where(oh => oh.OrderId == orderId)         
+                    .OrderByDescending(oh => oh.ChangedAt)
+                    .FirstAsync(token);
+
+
+        public async Task<IEnumerable<Order>> GetOrdersAsync(
+            Filters<Order> filters,
+            CancellationToken token)
+        {
+            IQueryable<Order> orders = _dbContext.Orders;
+            foreach (var filter in filters)
+                orders = orders.Where(filter);
+
+            return orders;
         }
 
         public OrdersRepository(AppDbContext dbContext)

@@ -23,7 +23,8 @@ namespace CakeSystem.Infrastructure.PostgreSQL
             modelBuilder.Entity<Order>()
                 .HasOne(o => o.Manager)
                 .WithMany()
-                .HasForeignKey(o => o.ManagerLogin);
+                .HasForeignKey(o => o.ManagerLogin)
+                .IsRequired(false);
             modelBuilder.Entity<Order>()
                 .HasOne(o => o.Client)
                 .WithMany()

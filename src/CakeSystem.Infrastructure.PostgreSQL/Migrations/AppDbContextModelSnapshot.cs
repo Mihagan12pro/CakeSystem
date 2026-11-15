@@ -84,7 +84,6 @@ namespace CakeSystem.Infrastructure.PostgreSQL.Migrations
                         .HasColumnType("date");
 
                     b.Property<string>("ManagerLogin")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<decimal?>("Price")
@@ -181,9 +180,7 @@ namespace CakeSystem.Infrastructure.PostgreSQL.Migrations
 
                     b.HasOne("CakeSystem.Domain.Entities.User", "Manager")
                         .WithMany()
-                        .HasForeignKey("ManagerLogin")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ManagerLogin");
 
                     b.Navigation("Client");
 

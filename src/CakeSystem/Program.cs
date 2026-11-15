@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
 using System.Reflection;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace CakeSystem
 {
@@ -75,7 +76,11 @@ namespace CakeSystem
 
             builder.Services.AddAuthorization();
 
-            builder.Services.AddControllersWithViews();
+            builder.Services.AddControllersWithViews()
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                });
 
             builder.Services.AddDbServices();
             builder.Services.AddApplicationServices();
